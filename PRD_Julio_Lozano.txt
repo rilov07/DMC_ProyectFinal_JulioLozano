@@ -1,0 +1,132 @@
+---
+title: "GeoReport Vial"
+---
+
+# PRD: GeoReport Vial
+
+## Problema
+
+La infraestructura vial local (pistas, carreteras, puentes, túneles, señalización, semáforos,
+drenajes) sufre incidencias constantes —baches, derrumbes, huaicos, inundaciones, accidentes,
+daños en guardavías, fallas de semaforización— que hoy no tienen un canal centralizado de
+registro, validación y seguimiento. Sin un sistema único, los reportes se pierden entre distintos
+canales informales (llamadas, oficios, redes sociales), no se georreferencian, se duplican, y no
+existe trazabilidad de quién es responsable de atenderlos ni en qué estado se encuentran. Esto
+retrasa la respuesta operativa y reduce la seguridad y transitabilidad de la red vial.
+
+## Usuario objetivo
+
+<!-- REVISAR: se infieren tres perfiles de usuario a partir del enunciado; confirmar roles exactos y si hay más (p. ej. contratistas externos). -->
+
+- **Ciudadano / reportante**: persona que se desplaza por la red vial y detecta una incidencia
+  (bache, derrumbe, accidente, semáforo averiado, etc.) y quiere reportarla desde su celular o PC,
+  con foto y ubicación, de forma rápida.
+- **Validador / operador municipal**: personal técnico que revisa los reportes entrantes, descarta
+  duplicados o falsos, y los valida antes de asignarlos.
+- **Responsable de atención / cuadrilla asignada**: personal o área encargada de atender la
+  incidencia, actualizar su estado (asignado, en proceso, resuelto) y dejar evidencia del cierre.
+- **Supervisor / gestor con rol de dashboard**: perfil directivo que monitorea indicadores
+  operativos y geográficos (incidencias por zona, tiempos de atención, tipos más frecuentes) para
+  tomar decisiones.
+
+## Objetivo / resultado esperado
+
+Contar con una plataforma web responsiva única donde cualquier incidencia vial se reporte,
+georreferencie y quede validada, asignada y monitoreada de principio a fin. El resultado esperado
+es reducir el tiempo entre la detección de una incidencia y su atención efectiva, evitar el
+duplicado de esfuerzos mediante la detección de reportes similares, y dar visibilidad agregada del
+estado de la red vial a través de un dashboard con indicadores.
+
+## Alcance (qué sí incluye esta versión)
+
+- Registro de reportes de incidencias con formulario (tipo de incidencia, descripción,
+  fotografías, ubicación geográfica).
+- Catálogo de tipos de incidencia: pistas/carreteras en mal estado, baches, accidentes que
+  interrumpen el tránsito, huaicos, derrumbes, inundaciones, problemas de señalización, semáforos
+  averiados, daños en guardavías, fallas de drenaje, túneles afectados, puentes dañados o
+  bloqueados.
+- Georreferenciación de cada reporte sobre un mapa interactivo.
+- Roles diferenciados (reportante, validador, responsable/cuadrilla, supervisor) con permisos
+  acordes.
+- Flujo de validación de reportes (aceptar, rechazar, marcar como duplicado).
+- Asignación de responsables a cada incidencia validada.
+- Control de estados de la incidencia (reportado → validado → asignado → en proceso → resuelto /
+  descartado).
+- Historial de cambios por incidencia (auditoría de estado, quién y cuándo).
+- Notificaciones internas ante cambios relevantes (nueva asignación, cambio de estado).
+- Detección de incidencias similares o duplicadas (por cercanía geográfica y tipo, dentro de una
+  ventana de tiempo).
+- Dashboard con indicadores operativos (tiempos de atención, incidencias por estado/tipo) y
+  geográficos (mapa de calor o distribución por zona).
+- Persistencia de toda la información en base de datos.
+- Diseño responsivo (uso desde celular y escritorio).
+- Alcance geográfico local (una ciudad o provincia definida).
+
+<!-- REVISAR: "alcance local" se asume una sola ciudad/provincia; confirmar el ámbito geográfico exacto y si habrá multi-zona desde el día uno. -->
+
+## No alcance (qué explícitamente no incluye esta versión)
+
+- Aplicación móvil nativa (iOS/Android) — solo web responsiva.
+- Integración con sistemas de emergencia externos (bomberos, policía, ambulancias) o envío
+  automático de alertas a estas entidades.
+- Pagos, licitaciones o gestión de contratistas externos para la ejecución de obras.
+- Predicción o modelamiento de riesgo vial (p. ej. predicción de huaicos con IA/clima).
+- Notificaciones públicas masivas a la ciudadanía (solo notificaciones internas del equipo
+  operativo).
+- Soporte multi-idioma.
+- Integración con cámaras de tránsito o sensores IoT en tiempo real.
+
+## Criterios de éxito
+
+- Un reportante puede crear un reporte georreferenciado con al menos una fotografía en menos de 2
+  minutos desde un dispositivo móvil.
+- El 100% de los reportes creados quedan almacenados con coordenadas geográficas válidas y
+  asociados a un tipo de incidencia del catálogo.
+- El validador puede identificar reportes potencialmente duplicados (mismo tipo, radio configurable
+  de cercanía, ventana de tiempo configurable) antes de aprobarlos, con una tasa de falsos
+  duplicados detectados verificable en pruebas.
+- Toda incidencia validada queda asignada a un responsable, y cada cambio de estado genera un
+  registro en el historial con fecha, usuario y estado anterior/nuevo.
+- El dashboard refleja el conteo de incidencias por estado, tipo y zona con una latencia de
+  actualización menor a 5 minutos respecto al último cambio registrado.
+- El sistema es usable (sin scroll horizontal, controles accesibles) en resoluciones desde 360px
+  (móvil) hasta escritorio.
+
+<!-- REVISAR: los umbrales numéricos (2 minutos, 5 minutos, radio de cercanía) son valores sugeridos de partida; deben validarse con el equipo operativo real. -->
+
+## Casos borde a contemplar
+
+- El reportante no otorga permisos de geolocalización: el sistema debe permitir ubicar el punto
+  manualmente en el mapa.
+- Fotografía no se puede subir (conexión débil, formato no soportado): el reporte debe poder
+  guardarse igual, marcando la evidencia como pendiente.
+- Dos o más ciudadanos reportan la misma incidencia casi simultáneamente: el sistema debe
+  agruparlos como posibles duplicados y no crear responsables asignados duplicados.
+- Un reporte queda sin validar por tiempo prolongado: debe quedar visible/priorizado como
+  pendiente en el panel del validador.
+- Un responsable asignado no actualiza el estado de una incidencia crítica (p. ej. puente
+  bloqueado) dentro de un plazo esperado: debe generar una notificación de escalamiento.
+- Coordenadas fuera del ámbito geográfico local definido (reporte erróneo o malicioso): el sistema
+  debe permitir rechazar o marcar el reporte como fuera de alcance.
+- Un mismo usuario reporta incidencias falsas repetidamente: se requiere capacidad de marcar
+  reportes como inválidos sin bloquear la creación de nuevos reportes legítimos por otros usuarios.
+- Pérdida de conexión durante el llenado del formulario: no debe perderse la información ya
+  ingresada (guardado local temporal o confirmación antes de salir).
+
+## Supuestos y riesgos abiertos
+
+- Se asume que existirá un proceso (manual o mediante invitación) para dar de alta a los usuarios
+  con rol de validador, responsable y supervisor; no se define aquí el mecanismo de autenticación.
+- Se asume acceso a un proveedor de mapas (p. ej. Google Maps, OpenStreetMap) para la
+  georreferenciación y visualización; la elección de proveedor no está definida en este documento.
+- Riesgo: la detección de incidencias similares basada en proximidad geográfica puede generar
+  falsos positivos (agrupar incidencias distintas cercanas) o falsos negativos (no agrupar la misma
+  incidencia si las coordenadas reportadas varían); el criterio exacto de "similar" debe afinarse
+  con el equipo funcional.
+- Riesgo: el volumen esperado de reportes y fotografías no está definido, lo cual afecta el
+  dimensionamiento de almacenamiento e infraestructura.
+- Se asume que "alcance local" implica un único municipio o provincia gestionando la plataforma;
+  si se requiere escalar a múltiples localidades, el modelo de datos y roles deberá revisarse.
+
+<!-- REVISAR: validar todos los supuestos anteriores con el equipo de producto antes de pasar a diseño/arquitectura. -->
+hygggggggggggggggggggggggggggggggggggggggkjmnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
