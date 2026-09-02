@@ -1,0 +1,24 @@
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    container_name: georeport-db
+    environment:
+      POSTGRES_DB: georeport
+      POSTGRES_USER: georeport
+      POSTGRES_PASSWORD: georeport
+    ports:
+      - "5433:5432"
+    # Los scripts de /docker-entrypoint-initdb.d/ se ejecutan en orden
+    # alfabético la primera vez que se crea el volumen.
+    volumes:
+      - ./01-schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./02-seed.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
+      - georeport-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U georeport -d georeport"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  georeport-data:
