@@ -1,0 +1,34 @@
+{
+  "name": "georeport-vial",
+  "version": "0.1.0",
+  "private": true,
+  "description": "GeoReport Vial monorepo: georeport-api (NestJS) + georeport-web (Angular). No shared-types package (ADR-0009).",
+  "workspaces": [
+    "georeport-api",
+    "georeport-web"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "format": "prettier --write \"**/*.{ts,js,json,md}\" --ignore-unknown",
+    "format:check": "prettier --check \"**/*.{ts,js,json,md}\" --ignore-unknown",
+    "docker:up": "docker compose up -d --wait",
+    "docker:down": "docker compose down",
+    "docker:reset": "docker compose down -v && docker compose up -d --wait",
+    "migrate": "npm run -w georeport-api migration:run",
+    "migrate:revert": "npm run -w georeport-api migration:revert",
+    "seed": "npm run -w georeport-api seed:catalog",
+    "seed:dev": "npm run -w georeport-api seed:dev-fixtures",
+    "db:reset": "npm run docker:reset && npm run migrate && npm run seed && npm run seed:dev",
+    "start:api": "npm run -w georeport-api start:dev",
+    "start:web": "npm run -w georeport-web start"
+  },
+  "allowScripts": {
+    "@parcel/watcher@2.6.0": true,
+    "esbuild@0.28.2": true,
+    "lmdb@3.5.6": true,
+    "msgpackr-extract@3.0.4": true,
+    "unrs-resolver@1.12.2": true
+  }
+}

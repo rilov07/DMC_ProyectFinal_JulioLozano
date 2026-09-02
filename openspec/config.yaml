@@ -1,0 +1,47 @@
+schema: spec-driven
+
+context: |
+  Project: GeoReport Vial (DMC_ProyectFinal_JulioLozano) — greenfield, no app code yet.
+  Target stack: monorepo, georeport-api (NestJS/TypeScript) + georeport-web (Angular/Signals).
+  Persistence: PostgreSQL + PostGIS (Docker), reference schema in db/01-schema.sql.
+  Architecture: two deployables, REST/OpenAPI contract, JWT in httpOnly cookie.
+  Planning artifacts: PRD.md, TECH-DESIGN.md, adrs/0001-0013, BACKLOG.md, Desing.md.
+
+strict_tdd: false
+
+testing:
+  status: no-runner-detected
+  reason: >
+    No package.json, nest-cli.json, angular.json, or any application project was found.
+    This is a planning-only greenfield repo; no workspace-level test command exists yet
+    to cover an in-scope project set. strict_tdd fails closed to false per sdd-init gate
+    until georeport-api and/or georeport-web are scaffolded with real test runners.
+  projects: []
+
+rules:
+  proposal:
+    - Ground every proposal in PRD.md, TECH-DESIGN.md, the relevant ADRs, and BACKLOG.md item.
+    - Include rollback plan for risky changes.
+  specs:
+    - Use Given/When/Then for scenarios.
+    - Use RFC 2119 keywords (MUST, SHALL, SHOULD, MAY).
+    - Respect the domain model in db/01-schema.sql (PostGIS types, Reporte/Incidencia split per ADR-0004).
+  design:
+    - Include sequence diagrams for complex flows.
+    - Document architecture decisions with rationale; link to existing adrs/ when reusing a decision.
+  tasks:
+    - Group by phase, use hierarchical numbering.
+    - Keep tasks completable in one session.
+    - Flag scaffolding tasks (project init, test runner setup) explicitly since none exist yet.
+  apply:
+    guidelines:
+      - Follow NestJS and Angular conventions once each project is scaffolded.
+      - Set up the test runner as part of the first apply cycle that creates georeport-api/georeport-web.
+    tdd: false           # Set to true to enable RED-GREEN-REFACTOR once a workspace test command exists
+    test_command: ""
+  verify:
+    test_command: ""
+    build_command: ""
+    coverage_threshold: 0
+  archive:
+    - Warn before merging destructive deltas.

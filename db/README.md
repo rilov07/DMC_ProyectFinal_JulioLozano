@@ -4,6 +4,15 @@ Implementación en SQL del modelo descrito en [`../TECH-DESIGN.md`](../TECH-DESI
 verificar que las decisiones de arquitectura se sostienen sobre datos reales antes de escribir una
 línea de `georeport-api`.
 
+> **Superseded para el loop de desarrollo diario.** El `docker-compose.yml` en la raíz del repo
+> (usado por `npm run docker:up` / `docker:reset`) es el que corre `georeport-api` a diario: mismo
+> puerto (5433) y mismo nombre de contenedor (`georeport-db`) que este archivo, pero con un volumen
+> distinto (`georeport-api-data`) y SIN montar `01-schema.sql`/`02-seed.sql` en
+> `docker-entrypoint-initdb.d` — el esquema lo aplican las migraciones de TypeORM. Por eso **los dos
+> compose NUNCA pueden correr al mismo tiempo** (mismo puerto/nombre de contenedor los hace mutuamente
+> excluyentes). Este `db/docker-compose.yml` sigue funcionando de forma independiente para validar el
+> modelo SQL puro, como se documenta abajo.
+
 > **Estado: sin ejecutar.** Estos scripts todavía no se han corrido contra una base PostGIS —
 > Docker Desktop no estaba levantado en la máquina al momento de escribirlos. Ver
 > [Verificación pendiente](#verificación-pendiente).

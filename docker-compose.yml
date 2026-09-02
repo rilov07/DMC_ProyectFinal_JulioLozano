@@ -1,0 +1,24 @@
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    container_name: georeport-db
+    environment:
+      POSTGRES_DB: georeport
+      POSTGRES_USER: georeport
+      POSTGRES_PASSWORD: georeport
+    ports:
+      - "5433:5432"
+    # No auto-init SQL mount: migrations run from georeport-api after the
+    # healthcheck passes (see Design: Andamiaje y esquema de base, Decision 8).
+    # Distinct volume name from db/docker-compose.yml is intentional so both
+    # compose files never collide on the same schema/data volume.
+    volumes:
+      - georeport-api-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U georeport -d georeport"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  georeport-api-data:

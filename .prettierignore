@@ -1,0 +1,21 @@
+node_modules
+dist
+coverage
+.angular
+*-lock.json
+package-lock.json
+
+# Pre-existing project documentation/spec content, out of scope for this
+# change (Andamiaje y esquema de base only formats the new scaffold).
+.agents/
+.atl/
+.claude/
+adrs/
+db/
+openspec/
+BACKLOG.md
+Desing.md
+PRD.md
+PRD_Julio_Lozano.txt
+TECH-DESIGN.md
+GeoReport Vial - Wireframes.html
