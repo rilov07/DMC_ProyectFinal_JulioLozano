@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+out-tsc/
+.angular/
+
+# Test coverage
+coverage/
+
+# Env files (never commit secrets/local overrides)
+.env
+.env.local
+
+# Editor/OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
